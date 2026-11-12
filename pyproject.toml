@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "litearm-peripherals"
+version = "0.0.0"
+description = "Python SDK for the Handsfree Quick Link tool changer and the WRJST six-axis force/torque sensor."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "LiteArm" }]
+keywords = ["robotics", "can", "modbus", "force-torque", "tool-changer"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = ["pyserial>=3.4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.5", "build>=1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+litearm_peripherals = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "live: requires real hardware",
+    "live_write: writes to real hardware",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+exclude = [".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+# Keep explicit `typing` generics so annotations stay valid at runtime on every
+# supported interpreter without relying on `from __future__` in each module.
+ignore = ["UP006", "UP007", "UP035", "UP037", "UP045"]
